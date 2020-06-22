@@ -1,7 +1,7 @@
 var request = require('request');
 
 // Retry settings for asynchronous call
-const NUMBER_OF_RETRIES = 20;
+const NUMBER_OF_RETRIES = 40;
 const RETRY_TIME_MSEC = 5 * 1000; // 5 sec
 
 // createTeam() - Returns a promise to create a Team and return its ID
