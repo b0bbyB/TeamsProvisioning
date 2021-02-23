@@ -5,9 +5,9 @@ const NUMBER_OF_RETRIES = 40;
 const RETRY_TIME_MSEC = 5 * 1000; // 5 sec
 
 // createTeam() - Returns a promise to create a Team and return its ID
-context.log('Running createTeam.js');
 module.exports = function createTeam(context, token, templateString) {
 
+  context.log('Running createTeam.js');
   context.log('Debug - createTeam.js: printing template string to  template URL: ' + templateString);
   return new Promise((resolve, reject) => {
 
