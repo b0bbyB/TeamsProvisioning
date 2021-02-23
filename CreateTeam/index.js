@@ -57,7 +57,7 @@ module.exports = async function (context, myQueueItem) {
                     resolve();
                 })
                 .catch((error) => {
-                    context.log(`ERROR: ${error}`);
+                    context.log(`ERROR - index: ${error}`);
                     context.bindings.myOutputQueueItem = {
                         success: false,
                         requestId: requestId,

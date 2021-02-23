@@ -3,19 +3,19 @@ var getDriveId = require('./getDriveId');
 var getDownloadUrl = require('./getDownloadUrl');
 var getUserId = require('./getUserId');
 var downloadDriveItem = require('./downloadDriveItem');
+var pictureTemplate = "GDPRIcon.png"
+var picbase64
 var settings = require('../Settings/settings');
 
-module.exports = function getTemplate(context, token, jsonTemplate,
-    displayName, description, owner) {
+module.exports = function getPicture(context, token, pictureTemplate) {
 
-    context.log('Getting template ' + jsonTemplate);
+    context.log('Getting picture ' + pictureTemplate);
 
     return new Promise((resolve, reject) => {
 
-        var template;   // The template as a JavaScript object
+        var picTemplate;   // The picture as a JavaScript object
 
         // 1. Get ID of the SharePoint site where template files are stored
-        context.log('Debug: Connecting to  template URL ' + settings().TEMPLATE_SITE_URL);
         getSiteId(context, token, settings().TENANT_NAME, 
             settings().TEMPLATE_SITE_URL)
         .then((siteId) => {
@@ -25,32 +25,26 @@ module.exports = function getTemplate(context, token, jsonTemplate,
         .then((driveId) => {
         // 3. Get the download URL for the template file
             return getDownloadUrl(context, token, driveId,
-                `${jsonTemplate}${settings().TEMPLATE_FILE_EXTENSION}`);
+                `${pictureTemplate}`);
         })
         .then((downloadUrl) => {
-        // 4. Get the contents of the template file
+        // 4. Get the contents of the picture
             return downloadDriveItem(context, token, downloadUrl);
-        })
-        .then((templateString) => {
-
-        // 5. Parse the template; get owner's user ID
-            template = JSON.parse(templateString.trimLeft());
-            return getUserId (context, token, owner);
-        })
-        .then((ownerId) => {
-        // 6. Add the per-team properties to the template
-
-            template['displayName'] = displayName;
-            template['description'] = description;
-            template['owners@odata.bind'] = [
-                `https://graph.microsoft.com/beta/users('${ownerId}')`
-            ];
+            // 5. Convert to base64 https://www.mavention.nl/blogs-cat/microsoft-graph-api-how-to-change-images/?cn-reloaded=1
+         //  picbase64 =  getBase64String(downloadDriveItem).then(base64Image => {
+           //     const groupId = 'The group ID here';
+             //   const request = {
+               //   method: 'PUT',
+                 // url:  'https://graph.microsoft.com/v1.0//groups/' + groupID + '/photo/$value',
+                  //responseType: 'application/json',
+                  // data: base64Image
+       
 
         // 7. Return the finished template as a string
             resolve(JSON.stringify(template));
         })
         .catch((ex) => {
-            reject(`Error in getTemplate(): ${ex}`);
+            reject(`Error in getPicture(): ${ex}`);
         });
 
 
