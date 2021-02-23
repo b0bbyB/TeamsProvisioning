@@ -7,7 +7,8 @@ var settings = require('../Settings/settings');
 
 module.exports = function getTemplate(context, token, jsonTemplate,
     displayName, description, owner) {
-
+    
+    context.log('Running getTemplate.js');
     context.log('Getting template ' + jsonTemplate);
 
     return new Promise((resolve, reject) => {
