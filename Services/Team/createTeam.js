@@ -5,8 +5,10 @@ const NUMBER_OF_RETRIES = 40;
 const RETRY_TIME_MSEC = 5 * 1000; // 5 sec
 
 // createTeam() - Returns a promise to create a Team and return its ID
+context.log('Running createTeam.js');
 module.exports = function createTeam(context, token, templateString) {
 
+  context.log('Debug - createTeam.js: printing template string to  template URL: ' + templateString);
   return new Promise((resolve, reject) => {
 
     const url = `https://graph.microsoft.com/beta/teams`;
@@ -22,6 +24,7 @@ module.exports = function createTeam(context, token, templateString) {
       if (response && response.statusCode == 202) {
 
         // If here we successfully issued the request
+        context.log('Debug - createTeam.js: If here we successfully issued the request ');
         const opUrl = `https://graph.microsoft.com/beta${response.headers.location}`;
         context.log(`operation url is ${opUrl}`);
 
@@ -32,6 +35,7 @@ module.exports = function createTeam(context, token, templateString) {
         context.log(`Exception path response ${response.statusCode}`);
         // If here something went wrong, reject with an error
         // message
+        context.log('Debug - createTeam.js: If here something went wrong, reject with an error');
         if (error) {
           reject(error);
         } else {
