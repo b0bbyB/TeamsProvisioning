@@ -40,7 +40,9 @@ module.exports = function getTemplate(context, token, jsonTemplate,
 
         // 5. Parse the template; get owner's user ID
         context.log('Debug - getTemplate.js: Trying to parse it and get owner user ID');
+        context.log(templateString);
             template = JSON.parse(templateString.trimLeft());
+        context.log('Debug - getTemplate.js: Parsed OK - Get owner user ID');
             return getUserId (context, token, owner);
         })
         .then((ownerId) => {
