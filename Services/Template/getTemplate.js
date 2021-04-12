@@ -44,6 +44,7 @@ module.exports = function getTemplate(context, token, jsonTemplate,
             template = JSON.parse(templateString.trimLeft());
         context.log('Debug - getTemplate.js: Parsed OK - Get owner user ID');
             return getUserId (context, token, owner);
+        context.log('Debug - getTemplate.js: Got user ID');
         })
         .then((ownerId) => {
         // 6. Add the per-team properties to the template
